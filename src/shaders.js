@@ -26,6 +26,7 @@ let frag = (isJulia) => `
     #define super_sampling ${superSampling}
     #define color_scheme ${colorScheme}
     #define is_julia ${isJulia}
+    #define stripe_on ${stripeOn}
     const float logLogRR = log2(log2(square_radius));
     
     varying vec2 delta;
@@ -88,7 +89,7 @@ let frag = (isJulia) => `
         #endif
         
         /*  Stripe average, a color algo based on statistcs  */
-        #if (color_scheme == 0)
+        #if (color_scheme == 0 && stripe_on == 1)
           stripe += z.x * z.y / zz * step(0.0, time);
           s3 = s2; s2 = s1; s1 = stripe;
         #endif
@@ -99,7 +100,7 @@ let frag = (isJulia) => `
       }
 
       time += clamp(1.0 + logLogRR - log2(log2(zz)), 0., 1.);
-      #if (color_scheme == 0)
+      #if (color_scheme == 0 && stripe_on == 1)
         stripe = interpolate(stripe, s1, s2, s3, fract(time));
       #endif
       return result(time, zz, dot(dz,dz), stripe, atan(z.y, z.x));
