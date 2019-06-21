@@ -57,7 +57,7 @@ const Events = {
   }
 
   function wheelZoom(pos) {
-    const factor = Math.pow(2, -wheelAccum / 200 );
+    const factor = Math.pow(2, wheelAccum / 200 );
     pos.x = pos.x.add(aim.x.sub(pos.x).mul(factor));
     pos.y = pos.y.add(aim.y.sub(pos.y).mul(factor));
     Events.simpleZoom(pos, factor);
